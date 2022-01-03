@@ -1,16 +1,12 @@
 
-
-from cripto import * 
-from ping import *
-from maps import *
-
-
+import asyncpg
+from discord.ext import tasks, commands
 from IPython.core.display import clear_output
 from prettytable import PrettyTable
 from IPython.display import display
 from pandas import json_normalize
 from urllib import parse, request
-from discord.ext import commands
+from discord.ext import tasks, commands
 from io import BytesIO
 import pandas as pd
 import threading
@@ -32,14 +28,39 @@ vbot = commands.Bot(command_prefix='*', description="Datos vrios Chile informaci
 
 
 
-def cripto():
-    return "hola"
+class MyCog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.data = []
+        self.batch_update.add_exception_type(asyncpg.PostgresConnectionError)
+        self.batch_update.start()
+
+    def cog_unload(self):
+        self.batch_update.cancel()
+
+    @tasks.loop(minutes=5.0)
+    async def batch_update(self):
+        async with self.bot.pool.acquire() as con:
+            # batch update here...
+            pass
 
 
 @vbot.event #creacion de eventos
 async def on_ready():
     print('. . . O N  L I N E . . . ')
 
+
+
+
+@vbot.command()
+async def mmm(contexto):
+    embed=discord.Embed(title="Sismos", description="muestra sismos", color=0xda0000)
+    embed.set_thumbnail(url="https://n9.cl/yqsvw")
+    embed.fields
+    embed.set_footer(text="aca")
+    await contexto.send(embed)
+
+    
 
 @vbot.command()
 async def sismos(contexto):
@@ -80,8 +101,6 @@ async def cripto(contexto):
 
 
 
-
-
 @vbot.command()
 async def sis(contexto):
     cabezeras= []
@@ -117,8 +136,6 @@ async def sis(contexto):
 
 
 
-
-
 @vbot.command()
 async def farma(contexto):
 
@@ -139,10 +156,7 @@ async def farma(contexto):
     sp = df.iloc[80, [5,6,8,11]] # representa [filas,columnas]
     print(sp)
 
-    embed=discord.Embed(title="Farmacias de Turno", description="", color=0x06ff10)
-    embed.add_field(name="Farmacias", value=(sp), inline=False)
-
-    await contexto.send(embed=embed)
+    
 
 
 @vbot.command()
