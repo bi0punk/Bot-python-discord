@@ -182,7 +182,7 @@ async def status(contexto):
 @tasks.loop(seconds=10)
 async def auto_send():
     channel = await vbot.fetch_channel('755941137369268274')
-    await channel.send('GOOD MORNING!')
+    await channel.send('texto de prueba')
 
 
 
