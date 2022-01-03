@@ -1,12 +1,11 @@
-
 import asyncpg
+from discord import channel
 from discord.ext import tasks, commands
 from IPython.core.display import clear_output
 from prettytable import PrettyTable
 from IPython.display import display
 from pandas import json_normalize
 from urllib import parse, request
-from discord.ext import tasks, commands
 from io import BytesIO
 import pandas as pd
 import threading
@@ -22,33 +21,15 @@ import re
 
 
 
-
 pt = PrettyTable()
 vbot = commands.Bot(command_prefix='*', description="Datos vrios Chile informaciones")
 
 
 
-class MyCog(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        self.data = []
-        self.batch_update.add_exception_type(asyncpg.PostgresConnectionError)
-        self.batch_update.start()
-
-    def cog_unload(self):
-        self.batch_update.cancel()
-
-    @tasks.loop(minutes=5.0)
-    async def batch_update(self):
-        async with self.bot.pool.acquire() as con:
-            # batch update here...
-            pass
-
 
 @vbot.event #creacion de eventos
 async def on_ready():
     print('. . . O N  L I N E . . . ')
-
 
 
 
@@ -135,7 +116,6 @@ async def sis(contexto):
  
 
 
-
 @vbot.command()
 async def farma(contexto):
 
@@ -157,8 +137,6 @@ async def farma(contexto):
     print(sp)
 
     
-
-
 @vbot.command()
 async def dolar(contexto):
     url = 'https://www.prensadigital.cl/cual-es-el-valor-dolar-en-chile-para-hoy-30-de-noviembre.html'
@@ -198,16 +176,16 @@ async def status(contexto):
     embed.set_thumbnail(url="https://n9.cl/frz34")
     await contexto.send(embed=embed)
 
-    #contine una instancia de clase discord instancia una clase, para intepretar f
-    embed.add_field(name="Primera vez en linea", value=f"{contexto.guild.created_at}")
-    #agregamos un nuevo campo con su valor
-    embed.add_field(name="Propietario", value=f"{contexto.guild.owner}")
-    embed.add_field(name="Server Region", value=f"{contexto.guild.region}")
-    embed.add_field(name="Server ID", value=f"{contexto.guild.id}")
-    # embed.set_thumbnail(url=f"{ctx.guild.icon}")
-    embed.set_thumbnail(url="https://n9.cl/frz34")
-    await contexto.send(embed=embed)
 
 
-vbot.run('Nzg3ODgyNjkxODM1MzMwNjQx.X9ba7w.ME7EDPzhX1srGSSav8BIxt5fkK4')
+
+@tasks.loop(seconds=10)
+async def auto_send():
+    channel = await vbot.fetch_channel('755941137369268274')
+    await channel.send('GOOD MORNING!')
+
+
+
+
+vbot.run('taken')
 
