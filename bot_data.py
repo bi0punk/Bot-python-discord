@@ -184,7 +184,15 @@ async def auto_send():
     channel = await vbot.fetch_channel('755941137369268274')
     await channel.send('texto de prueba')
 
+import discord
+from discord.ext import tasks
 
+client = discord.Client()
+
+@tasks.loop(seconds = 10) # repeat after every 10 seconds
+async def myLoop():
+    print("hola mundo")
+myLoop.start()
 
 
 vbot.run('taken')
