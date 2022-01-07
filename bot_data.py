@@ -193,5 +193,5 @@ async def myLoop():
 myLoop.start()
 
 
-vbot.run('tn')
+vbot.run('aqui tu token')
 
