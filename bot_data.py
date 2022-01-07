@@ -177,8 +177,6 @@ async def status(contexto):
     await contexto.send(embed=embed)
 
 
-
-
 @tasks.loop(seconds=10)
 async def auto_send():
     channel = await vbot.fetch_channel('755941137369268274')
