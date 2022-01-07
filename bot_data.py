@@ -193,5 +193,5 @@ async def myLoop():
 myLoop.start()
 
 
-vbot.run('taken')
+vbot.run('tn')
 
