@@ -18,7 +18,8 @@ import json
 import time
 import bs4
 import re
-
+import discord
+from discord.ext import tasks
 
 
 pt = PrettyTable()
@@ -33,6 +34,14 @@ async def on_ready():
 
 
 
+
+
+
+
+
+
+
+
 @vbot.command()
 async def mmm(contexto):
     embed=discord.Embed(title="Sismos", description="muestra sismos", color=0xda0000)
@@ -42,6 +51,9 @@ async def mmm(contexto):
     await contexto.send(embed)
 
     
+
+
+
 
 @vbot.command()
 async def sismos(contexto):
@@ -71,7 +83,10 @@ async def sismos(contexto):
     await contexto.send(df.head(3))
 
 
-  
+
+
+
+
 @vbot.command()
 async def cripto(contexto):
     embed=discord.Embed(title="Valor Criptos", description="Valor criptomonedas")
@@ -79,6 +94,10 @@ async def cripto(contexto):
     hilo = threading.Thread(target=cripto, args=(10,))
     hilo.start()   # Iniciamos la ejecución del thread,
     await contexto.send(embed=embed)
+
+
+
+
 
 
 
@@ -116,6 +135,10 @@ async def sis(contexto):
  
 
 
+
+
+
+
 @vbot.command()
 async def farma(contexto):
 
@@ -137,6 +160,8 @@ async def farma(contexto):
     print(sp)
 
     
+
+
 @vbot.command()
 async def dolar(contexto):
     url = 'https://www.prensadigital.cl/cual-es-el-valor-dolar-en-chile-para-hoy-30-de-noviembre.html'
@@ -164,6 +189,9 @@ async def dolar(contexto):
     await contexto.send(embed=dlr)
 
 
+
+
+
 @vbot.command()
 async def status(contexto):
     embed = discord.Embed(title=f"{contexto.guild.name}", description="DATA SCIENCE AND FACTS BOT", timestamp=datetime.datetime.utcnow(), color=discord.Color.red())
@@ -182,16 +210,49 @@ async def auto_send():
     channel = await vbot.fetch_channel('755941137369268274')
     await channel.send('texto de prueba')
 
-import discord
-from discord.ext import tasks
-
-client = discord.Client()
-
-@tasks.loop(seconds = 10) # repeat after every 10 seconds
-async def myLoop():
-    print("hola mundo")
-myLoop.start()
 
 
-vbot.run('aqui tu token')
+
+
+
+
+
+class Mcstats(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.channel = self.bot.get_channel(755941137369268274)
+        self.message = await self.channel.fetch_message(1)
+        self.task.start()
+        
+    
+    @tasks.loop(minutes=1)
+    async def task(self):
+        #retrieving data and creating embed
+        await self.message.edit(embed=your_embed) #editing message
+
+    client = discord.Client()
+
+    @tasks.loop(seconds = 10) # repeat after every 10 seconds
+    async def myLoop():
+        print("hola mundo")
+    myLoop.start()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vbot.run('Nzg3ODgyNjkxODM1MzMwNjQx.X9ba7w.rHC_wfJlVsWLsCYjUZfSN8tB_Zg')
 
