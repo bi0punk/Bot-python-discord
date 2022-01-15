@@ -254,5 +254,5 @@ class Mcstats(commands.Cog):
 
 
 
-vbot.run('Nzg3ODgyNjkxODM1MzMwNjQx.X9ba7w.rHC_wfJlVsWLsCYjUZfSN8tB_Zg')
+vbot.run('token')
 
